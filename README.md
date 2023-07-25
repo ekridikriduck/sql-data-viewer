@@ -30,6 +30,7 @@ Or User can choose to add the query to input field directly for execution.
 Enter the query.
 Press Execute query.
 A default response for the query should appear in tabular format.
+User should be able to sort the data by clicking on the icon in the column header.
 
 ### `Predefined Queries`
 
@@ -49,4 +50,5 @@ Press Execute query to run.
 
 ### `Demo App`
 
+You can demo the app at
 [Demo](https://sql-data-viwer.surge.sh/)
