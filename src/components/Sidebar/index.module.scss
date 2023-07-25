@@ -1,0 +1,47 @@
+@use "/src/styles/variables.scss" as *;
+
+.sidebar_item {
+  &:not(:first-child) {
+    padding-top: 1.5rem;
+  }
+  .sidebar_item_header {
+    font-family: $font-bold;
+    font-size: 1.4rem;
+    color: #4a4a4a;
+    padding: 0 0 1rem 2rem;
+    border-bottom: 1px solid #ebebeb;
+  }
+}
+
+.query_item {
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ebebeb;
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  &:last-child {
+    border-color: #333;
+  }
+}
+
+.query_name {
+  font-family: $font-regular;
+  font-size: 1.2rem;
+  color: #4a4a4a;
+}
+.query_description {
+  font-family: $font-light;
+  font-size: 1rem;
+  color: #4a4a4a;
+  margin-top: 0.8rem;
+}
+
+.empty_state {
+  padding: 1rem 2rem;
+  font-family: $font-semi-bold;
+  font-size: 1.2rem;
+  color: #4a4a4a;
+  text-align: center;
+  background-color: #cbcbcb;
+}

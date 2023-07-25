@@ -1,0 +1,23 @@
+@use "/src/styles/variables.scss" as *;
+
+.custom_input_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  label {
+    font-family: $font-light;
+    font-size: 1.2rem;
+  }
+
+  .custom_input {
+    padding: 1rem;
+    font-family: $font-regular;
+    font-size: 1.4rem;
+    border: 1px solid #ebebeb;
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: none;
+    }
+  }
+}

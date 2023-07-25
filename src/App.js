@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  Sidebar,
+  QueryBuilderToggler,
+  QueryInputField,
+  CustomTable,
+  ExecuteQueryButton,
+} from "./components";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header className="app-header d-flex align-items-center">
+        Sql Data Viewer
       </header>
+      <main className="app-main">
+        <Sidebar />
+        <div className="app-content">
+          <QueryInputField />
+          <div className="app-cta-wrapper">
+            <ExecuteQueryButton />
+            <QueryBuilderToggler />
+          </div>
+          <CustomTable />
+        </div>
+      </main>
     </div>
   );
 }

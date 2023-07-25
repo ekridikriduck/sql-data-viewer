@@ -1,0 +1,13 @@
+@use "/src/styles/variables.scss" as *;
+.custom_button {
+  padding: 0.8rem;
+  font-family: $font-regular;
+  font-size: 1.4rem;
+  border: none;
+  min-width: 150px;
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: none;
+  }
+}
