@@ -66,3 +66,8 @@ Press Execute query to run.
 
 You can demo the app at
 [Demo](https://sql-data-viwer.surge.sh/)
+
+### `Lighthouse performance test`
+![image](https://github.com/ekridikriduck/sql-data-viewer/assets/47239331/ba5c76e7-7f6f-48fa-baf8-413e280fce14)
+
+
