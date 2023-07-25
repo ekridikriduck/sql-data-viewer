@@ -17,25 +17,37 @@ You may also see any lint errors in the console.
 ### `Build Query`
 
 Click on Query builder button.
+
 Enter Query name.
+
 Select operation.
+
 Select table.
+
 Select column.
+
 Add condition filter if needed.
+
 User can choose to save the query for future use.
+
 Or User can choose to add the query to input field directly for execution.
 
 ### `Execute Query`
 
 Enter the query.
+
 Press Execute query.
+
 A default response for the query should appear in tabular format.
+
 User should be able to sort the data by clicking on the icon in the column header.
 
 ### `Predefined Queries`
 
 Click on any of the predefined queries from the sidebar.
+
 Query should fill in automatically in the input field.
+
 Press Execute query to run.
 
 ### `Packages Used`
@@ -47,6 +59,8 @@ Press Execute query to run.
 [Redux Toolkit](https://github.com/reduxjs/redux-toolkit)
 
 [Classnames](https://github.com/JedWatson/classnames)
+
+[React Icons](https://github.com/react-icons/react-icons)
 
 ### `Demo App`
 
