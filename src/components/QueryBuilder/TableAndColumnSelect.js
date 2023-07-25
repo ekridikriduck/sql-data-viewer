@@ -5,6 +5,13 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectColumn,
+  selectTable,
+  setValues,
+} from "../../redux/queryBuilderSlice";
+
 import clx from "classnames";
 import {
   DATA_MAP_KEYS,
@@ -12,14 +19,14 @@ import {
 } from "../../utils/data-utils";
 import styles from "./index.module.scss";
 
-export const TableAndColumnSelect = ({
-  onTableItemClick,
-  onColumnItemClick,
-  tableValue = "",
-  columnValue = "",
-}) => {
+export const TableAndColumnSelect = () => {
+  const dispatch = useDispatch();
+  const tableValue = useSelector(selectTable);
+  const columnValue = useSelector(selectColumn);
+
   const [tableDropdownOpen, setTableDropdownOpen] = useState(false);
   const [columnDropdownOpen, setColumnDropdownOpen] = useState(false);
+
   const toggleTableDropdown = () =>
     setTableDropdownOpen((prevState) => !prevState);
   const toggleColumnDropdown = () =>
@@ -30,7 +37,9 @@ export const TableAndColumnSelect = ({
       <DropdownItem
         className={styles.builder_select_menu_item}
         key={tableName}
-        onClick={() => onTableItemClick(tableName)}
+        onClick={() => {
+          dispatch(setValues({ key: "table", value: tableName }));
+        }}
       >
         {tableName}
       </DropdownItem>
@@ -48,7 +57,9 @@ export const TableAndColumnSelect = ({
       <DropdownItem
         className={styles.builder_select_menu_item}
         key={key}
-        onClick={() => onColumnItemClick(key)}
+        onClick={() => {
+          dispatch(setValues({ key: "column", value: key }));
+        }}
       >
         {key + " (" + type + ")"}
       </DropdownItem>

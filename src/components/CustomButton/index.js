@@ -1,6 +1,6 @@
 import { Button } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { selectActiveQuery, setTableData } from "../../redux/store";
+import { selectActiveQuery, setTableData } from "../../redux/appSlice";
 import { DATA_MAP, DATA_MAP_KEYS } from "../../utils/data-utils";
 import styles from "./index.module.scss";
 

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { PREDEFINED_QUERIES } from "../../utils/data-utils";
-import { selectSavedQueries, setActiveQuery } from "../../redux/store";
+import { selectSavedQueries, setActiveQuery } from "../../redux/appSlice";
 import styles from "./index.module.scss";
 
 export const Sidebar = () => {

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { CustomInput } from "../CustomInput";
-import { setActiveQuery, selectActiveQuery } from "../../redux/store";
+import { setActiveQuery, selectActiveQuery } from "../../redux/appSlice";
 
 export const QueryInputField = () => {
   const dispatch = useDispatch();

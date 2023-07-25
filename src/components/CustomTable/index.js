@@ -4,7 +4,7 @@ import {
   selectTableData,
   setSortState,
   selectSortState,
-} from "../../redux/store";
+} from "../../redux/appSlice";
 import { getRowValueByType, toSentenceCase } from "../../utils/data-utils";
 import { LiaSortSolid } from "react-icons/lia";
 import styles from "./index.module.scss";

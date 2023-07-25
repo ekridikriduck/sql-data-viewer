@@ -1,16 +1,27 @@
-import { useEffect, useState, useId } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useId } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import { CustomButton } from "../CustomButton";
 import { CustomInput } from "../CustomInput";
 import { OperationSelect } from "./OperationSelect";
 import { TableAndColumnSelect } from "./TableAndColumnSelect";
-import { addSavedQuery, setActiveQuery } from "../../redux/store";
+import { addSavedQuery, setActiveQuery } from "../../redux/appSlice";
+import {
+  selectQueryName,
+  setValues,
+  selectQueryPreview,
+  selectCondition,
+  resetQueryBuilder,
+} from "../../redux/queryBuilderSlice";
 import styles from "./index.module.scss";
 
 export const QueryBuilderToggler = () => {
+  const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
-  const toggle = () => setOpen(!isOpen);
+  const toggle = () => {
+    dispatch(resetQueryBuilder());
+    setOpen(!isOpen);
+  };
   return (
     <>
       <CustomButton onClick={toggle} color="primary">
@@ -21,102 +32,92 @@ export const QueryBuilderToggler = () => {
   );
 };
 
-const INITIAL_BUILDER_STATE = {
-  operation: "",
-  table: "",
-  column: "",
-  condition: "",
-};
-
 export const QueryBuilder = ({ isOpen, onToggle }) => {
-  const dispatch = useDispatch();
-  const [builderState, setBuilderState] = useState({
-    ...INITIAL_BUILDER_STATE,
-  });
-  const [queryName, setQueryName] = useState("");
-  const id = useId();
-
-  useEffect(() => {
-    // reset state when modal is closed
-    return () => setBuilderState({ ...INITIAL_BUILDER_STATE });
-  }, [isOpen]);
-
-  const onOperationSelect = (operation) =>
-    setBuilderState({ ...builderState, operation: operation });
-
-  const onTableSelect = (table) => {
-    setBuilderState({ ...builderState, table: table, column: "" });
-  };
-
-  const onQueryNameChangeHandler = (e) => setQueryName(e.target.value);
-
-  const onColumnSelect = (column) =>
-    setBuilderState({ ...builderState, column: column });
-
-  const onConditionChange = (e) =>
-    setBuilderState({ ...builderState, condition: e.target.value });
-
-  const getQuery = () => {
-    const { operation, table, column, condition } = builderState;
-    let baseQuery = `SELECT`;
-    if (operation) baseQuery = baseQuery.concat(` ${operation}`);
-    if (column) baseQuery = baseQuery.concat(` (${column})`);
-    if (table) baseQuery = baseQuery.concat(` FROM ${table}`);
-    if (condition) baseQuery = baseQuery.concat(` WHERE ${condition}`);
-
-    return baseQuery.concat(`;`);
-  };
-
-  const onSaveQuery = () => {
-    dispatch(
-      addSavedQuery({ id, name: queryName || "Unnamed", query: getQuery() })
-    );
-    onToggle();
-  };
-
-  const onDoneClick = () => {
-    dispatch(setActiveQuery(getQuery()));
-    onToggle();
-  };
-
   return (
     <Modal toggle={onToggle} size="lg" centered isOpen={isOpen}>
       <ModalHeader className={styles.query_builder_header}>
         Query Builder
       </ModalHeader>
       <ModalBody className={styles.query_builder_body}>
-        <CustomInput label="Query Preview" disabled value={getQuery()} />
-        <CustomInput
-          label="Query Name"
-          onChange={onQueryNameChangeHandler}
-          value={queryName}
-        />
-        <OperationSelect
-          onItemClick={onOperationSelect}
-          value={builderState.operation}
-        />
-        <TableAndColumnSelect
-          onTableItemClick={onTableSelect}
-          tableValue={builderState.table}
-          columnValue={builderState.column}
-          onColumnItemClick={onColumnSelect}
-        />
-        <CustomInput
-          label="Condition"
-          placeholder="Apply a filter to your query"
-          onChange={onConditionChange}
-          value={builderState.condition}
-        />
+        <QueryPreviewField />
+        <QueryNameField />
+        <OperationSelect />
+        <TableAndColumnSelect />
+        <FilterField />
       </ModalBody>
       <ModalFooter>
         <CustomButton onClick={onToggle}>Cancel</CustomButton>
-        <CustomButton onClick={onSaveQuery} color="primary">
-          Save Query
-        </CustomButton>
-        <CustomButton onClick={onDoneClick} color="primary">
-          Done
-        </CustomButton>
+        <SaveQueryButton onToggle={onToggle} />
+        <DoneButton onToggle={onToggle} />
       </ModalFooter>
     </Modal>
+  );
+};
+
+const QueryNameField = () => {
+  const dispatch = useDispatch();
+  const queryName = useSelector(selectQueryName);
+  const onChangeHandler = (e) => {
+    dispatch(setValues({ key: "queryName", value: e.target.value }));
+  };
+  return (
+    <CustomInput
+      onChange={onChangeHandler}
+      label="Query Name"
+      value={queryName}
+    />
+  );
+};
+
+const QueryPreviewField = () => {
+  const queryValue = useSelector(selectQueryPreview);
+  return <CustomInput label="Query Preview" disabled value={queryValue} />;
+};
+
+const FilterField = () => {
+  const dispatch = useDispatch();
+  const filterValue = useSelector(selectCondition);
+  const onChangeHandler = (e) => {
+    dispatch(setValues({ key: "condition", value: e.target.value }));
+  };
+  return (
+    <CustomInput
+      label="Filter"
+      onChange={onChangeHandler}
+      value={filterValue}
+      placeholder="Apply a filter to your query"
+    />
+  );
+};
+
+const SaveQueryButton = ({ onToggle }) => {
+  const id = useId();
+  const dispatch = useDispatch();
+  const queryName = useSelector(selectQueryName);
+  const queryValue = useSelector(selectQueryPreview);
+  const onClick = () => {
+    dispatch(
+      addSavedQuery({ id, name: queryName || "Unnamed", query: queryValue })
+    );
+    onToggle();
+  };
+  return (
+    <CustomButton onClick={onClick} color="primary">
+      Save Query
+    </CustomButton>
+  );
+};
+
+const DoneButton = ({ onToggle }) => {
+  const dispatch = useDispatch();
+  const queryValue = useSelector(selectQueryPreview);
+  const onClick = () => {
+    dispatch(setActiveQuery(queryValue));
+    onToggle();
+  };
+  return (
+    <CustomButton onClick={onClick} color="primary">
+      Done
+    </CustomButton>
   );
 };

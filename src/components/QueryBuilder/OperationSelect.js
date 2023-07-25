@@ -1,14 +1,19 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
+import { selectOperation, setValues } from "../../redux/queryBuilderSlice";
 import { SQL_OPERATIONS } from "../../constants";
 import styles from "./index.module.scss";
 
-export const OperationSelect = ({ onItemClick, value = "" }) => {
+export const OperationSelect = () => {
+  const dispatch = useDispatch();
+  const value = useSelector(selectOperation);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const dropdownItems = SQL_OPERATIONS.map((operation) => {
@@ -17,7 +22,9 @@ export const OperationSelect = ({ onItemClick, value = "" }) => {
       <DropdownItem
         className={styles.builder_select_menu_item}
         key={value}
-        onClick={() => onItemClick(value)}
+        onClick={() => {
+          dispatch(setValues({ key: "operation", value: value }));
+        }}
       >
         {value}
         <span className={styles.operation_desc}>
